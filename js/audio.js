@@ -97,8 +97,6 @@ class AudioManager {
     const playPromise = this.bgmEl.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Autoplay blocked — show music button so user can start manually
-        document.getElementById('music-btn').classList.remove('hidden');
         this.bgmStarted = false;
       });
     }
@@ -109,7 +107,6 @@ class AudioManager {
       return;
     }
 
-    // Fade in over 3.5 seconds
     if (window.gsap) {
       gsap.to(this.bgmEl, { volume: 0.42, duration: 3.5, ease: 'power1.inOut' });
     } else {
