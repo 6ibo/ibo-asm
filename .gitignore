@@ -1,0 +1,5 @@
+ssstik.io_*.mp4
+ssstik.io_*.mp3
+node_modules/
+.DS_Store
+Thumbs.db

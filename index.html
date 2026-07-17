@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#FFF9FA" />
+  <title>دعوة خطوبة إبراهيم وأسماء 💍</title>
+
+  <!-- Google Fonts: Amiri (Quran), Aref Ruqaa (titles), Tajawal (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- GSAP (must load before modules that use it) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/scene-video.css" />
+  <link rel="stylesheet" href="css/scene-door.css" />
+  <link rel="stylesheet" href="css/scene-quiz.css" />
+  <link rel="stylesheet" href="css/scene-reveal.css" />
+</head>
+<body>
+
+  <!-- Loading overlay — hides while fonts/scripts settle -->
+  <div id="loading-overlay" aria-hidden="true">
+    <div class="loader-ring"></div>
+  </div>
+
+  <!-- ========================================
+       SCENE 0: VIDEO INTRO
+       ======================================== -->
+  <section id="scene-video" class="scene active" aria-label="مقدمة الفيديو">
+    <video id="intro-video" preload="auto" playsinline
+           aria-label="فيديو مقدمة الدعوة">
+      <source src="vivi.mp4" type="video/mp4" />
+    </video>
+    <!-- Shown only if browser blocks autoplay -->
+    <div id="video-tap-overlay" style="display:none">
+      <div class="vto-inner">
+        <div class="vto-icon">▶</div>
+        <p class="vto-text font-tajawal">اضغط للبدء</p>
+      </div>
+    </div>
+    <button id="btn-skip-video" aria-label="تخطي الفيديو">تخطي ←</button>
+  </section>
+
+  <!-- ========================================
+       SCENE 1: ENVELOPE
+       ======================================== -->
+  <section id="scene-door" class="scene" aria-label="ظرف الدعوة">
+    <p class="welcome-text font-ruqaa">أهلاً وسهلاً بكم</p>
+
+    <div class="env-outer" id="env-outer">
+
+      <!-- Letter card (hidden inside, rises when envelope opens) -->
+      <div class="env-letter-card" id="env-letter-card" aria-hidden="true">
+        <p class="env-ltr-label">بسم الله الرحمن الرحيم</p>
+        <p class="env-ltr-names">إبراهيم <span style="color:var(--rose-gold);font-size:0.85em">✦</span> أسماء</p>
+        <div class="env-ltr-divider"></div>
+        <p class="env-ltr-date">٨ · ٨ · ٢٠٢٦</p>
+      </div>
+
+      <!-- The envelope -->
+      <div class="envelope-box" id="envelope-box">
+
+        <!-- Inside face (cream, revealed as flap opens) -->
+        <div class="env-inside"></div>
+
+        <!-- Body front face (fold lines SVG injected by JS) -->
+        <div class="env-body-front" id="env-body-front"></div>
+
+        <!-- Flap — top triangle, collapses upward on open (SVG injected by JS) -->
+        <div class="env-flap" id="env-flap"></div>
+
+        <!-- Wax seal — centered on flap/body junction -->
+        <div class="env-seal" id="env-seal"
+             role="button" tabindex="0" aria-label="افتح الدعوة">
+          <span class="env-seal-text">خ</span>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="knock-hint font-tajawal" id="knock-hint">اضغط على الختم لفتح الدعوة</p>
+  </section>
+
+  <!-- ========================================
+       SCENE 2: QUIZ
+       ======================================== -->
+  <section id="scene-quiz" class="scene" aria-label="اختبار الحب">
+
+    <!-- Interactive animated background canvas -->
+    <canvas id="quiz-bg-canvas" class="scene-bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- QUIZ INTRO: shown first, before questions -->
+    <div id="quiz-intro" class="quiz-intro">
+      <div class="quiz-intro-card">
+        <div class="qi-icon">💍</div>
+        <h2 class="qi-title font-ruqaa">اختبار الحب</h2>
+        <p class="qi-desc font-tajawal">
+          قبل أن تدخل للاحتفال، دعنا نختبر<br>كم تعرف عن سر الزواج السعيد!
+        </p>
+        <p class="qi-count font-tajawal">٣ أسئلة خفيفة ✨</p>
+        <button id="btn-start-quiz" class="btn-primary font-tajawal">ابدأ الاختبار</button>
+      </div>
+    </div>
+
+    <!-- QUIZ QUESTIONS: hidden until intro button clicked -->
+    <div class="quiz-wrapper hidden" id="quiz-wrapper">
+      <h2 class="quiz-title font-ruqaa">اختبار الحب 💍</h2>
+      <div class="hearts-progress" id="hearts-progress" role="progressbar" aria-label="التقدم"></div>
+      <div id="quiz-card" class="quiz-card"></div>
+    </div>
+
+    <!-- AYAH SCREEN: hidden until quiz ends -->
+    <div id="ayah-screen" class="ayah-screen hidden" aria-live="polite">
+      <div class="ayah-wrapper">
+        <span class="ayah-deco font-amiri">﴿</span>
+        <p class="ayah-text font-amiri" id="ayah-text"></p>
+        <span class="ayah-deco font-amiri" style="display:block;margin-top:0.5rem">﴾</span>
+        <p class="ayah-source font-tajawal">سورة الروم، الآية ٢١</p>
+      </div>
+      <button id="btn-enter-invite" class="btn-primary font-tajawal hidden">
+        ادخل للدعوة ✨
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ========================================
+       SCENE 3: INVITATION REVEAL
+       ======================================== -->
+  <section id="scene-reveal" class="scene" aria-label="بطاقة الدعوة">
+
+    <!-- Confetti canvas (positioned fixed behind card) -->
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- The invitation card -->
+    <article class="invite-card" id="invite-card" aria-label="بطاقة الدعوة">
+
+      <!-- Top ornament -->
+      <div class="card-ornament top">
+        <div class="orn-diamond"></div>
+      </div>
+
+      <p class="card-label font-tajawal">
+        بسم الله الرحمن الرحيم
+      </p>
+
+      <h1 class="couple-names font-ruqaa">
+        <span class="groom-name">إبراهيم</span>
+        <span class="name-separator">✦</span>
+        <span class="bride-name">أسماء</span>
+      </h1>
+
+      <p class="invite-text font-tajawal">
+        يتشرف الأهل بدعوتكم لمشاركتهم<br />فرحة الخطوبة السعيدة
+      </p>
+
+      <div class="date-display font-ruqaa" aria-label="تاريخ الخطوبة: الثامن من أغسطس ألفين وستة وعشرين">
+        <span>٨</span>
+        <span class="date-sep">/</span>
+        <span>٨</span>
+        <span class="date-sep">/</span>
+        <span>٢٠٢٦</span>
+      </div>
+      <p class="date-label font-tajawal">٨ أغسطس ٢٠٢٦</p>
+
+      <!-- Live countdown -->
+      <div class="countdown-grid" id="countdown-grid" aria-live="off">
+        <div class="cd-block">
+          <span class="cd-val font-ruqaa" id="cd-days">--</span>
+          <span class="cd-label font-tajawal">يوم</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-val font-ruqaa" id="cd-hours">--</span>
+          <span class="cd-label font-tajawal">ساعة</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-val font-ruqaa" id="cd-minutes">--</span>
+          <span class="cd-label font-tajawal">دقيقة</span>
+        </div>
+        <div class="cd-block">
+          <span class="cd-val font-ruqaa" id="cd-seconds">--</span>
+          <span class="cd-label font-tajawal">ثانية</span>
+        </div>
+      </div>
+
+      <!-- Add to calendar -->
+      <a id="btn-calendar" href="#" class="btn-calendar font-tajawal" target="_blank" rel="noopener">
+        📅 أضف للتقويم
+      </a>
+
+      <p class="closing-text font-tajawal">
+        حضوركم يزيدنا سعادة وشرف
+      </p>
+
+      <!-- Bottom ornament -->
+      <div class="card-ornament bottom">
+        <div class="orn-diamond"></div>
+      </div>
+
+    </article>
+  </section>
+
+  <!-- ========================================
+       PERSISTENT MUSIC BUTTON
+       (shown after door opens)
+       ======================================== -->
+  <button id="music-btn" class="music-btn hidden" aria-label="تشغيل / إيقاف الموسيقى">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
+      <path id="music-icon-path" d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+    </svg>
+  </button>
+
+  <!-- BGM audio element -->
+  <audio id="bgm" loop preload="none">
+    <source src="assets/audio/majed-al-mohandis-engagement.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ========================================
+       SCRIPTS (ES modules, loaded after body)
+       ======================================== -->
+  <script type="module" src="js/audio.js"></script>
+  <script type="module" src="js/scene-manager.js"></script>
+  <script type="module" src="js/scene-video.js"></script>
+  <script type="module" src="js/scene-door.js"></script>
+  <script type="module" src="js/scene-quiz.js"></script>
+  <script type="module" src="js/scene-reveal.js"></script>
+
+  <!-- Remove loading overlay once page is ready -->
+  <script>
+    window.addEventListener('load', () => {
+      const overlay = document.getElementById('loading-overlay');
+      overlay.classList.add('fade-out');
+      setTimeout(() => overlay.remove(), 600);
+    });
+  </script>
+
+</body>
+</html>

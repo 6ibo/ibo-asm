@@ -1,0 +1,37 @@
+:root {
+  /* Colors — calmer, more muted palette */
+  --cream:        #FFFDFB;
+  --cream-2:      #FDF8F4;
+  --blush-light:  #F5D5D8;
+  --blush:        #EDB8C0;
+  --blush-deep:   #D4909E;
+  --rose-gold:    #C4A0A0;
+  --rose-gold-2:  #A87878;
+  --warm-text:    #3E2E2E;
+  --warm-muted:   #7A6A62;
+  --gold-accent:  #B89458;
+
+  /* Gradients */
+  --grad-bg:    linear-gradient(160deg, #FFFDFB 0%, #FDF8F4 55%, #FAF2EE 100%);
+  --grad-card:  linear-gradient(160deg, #FFFDFB 0%, #FDF5F0 100%);
+  --grad-rose:  linear-gradient(135deg, #D4909E 0%, #C4A0A0 100%);
+
+  /* Shadows */
+  --shadow-soft:  0 4px 24px rgba(180, 140, 140, 0.14);
+  --shadow-card:  0 8px 48px rgba(180, 140, 140, 0.18), 0 2px 8px rgba(180, 140, 140, 0.08);
+  --shadow-glow:  0 0 40px rgba(212, 144, 158, 0.28);
+
+  /* Fonts */
+  --font-amiri:   'Amiri', serif;
+  --font-ruqaa:   'Aref Ruqaa', serif;
+  --font-tajawal: 'Tajawal', sans-serif;
+
+  /* Spacing */
+  --gap-sm:  0.5rem;
+  --gap-md:  1rem;
+  --gap-lg:  2rem;
+  --gap-xl:  3rem;
+
+  /* Transition */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}

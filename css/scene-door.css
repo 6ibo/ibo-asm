@@ -1,0 +1,226 @@
+/* ===== SCENE 1: ENVELOPE ===== */
+#scene-door {
+  background: linear-gradient(160deg, #FDF8F0 0%, #F8F0E2 45%, #F2E8D5 100%);
+  overflow: hidden;
+  gap: 0;
+}
+
+#scene-door::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(239,168,184,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(212,165,165,0.10) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(248,215,218,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.welcome-text {
+  font-family: var(--font-ruqaa);
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  color: var(--rose-gold-2);
+  letter-spacing: 0.07em;
+  margin-bottom: 2rem;
+  text-align: center;
+  text-shadow: 0 2px 16px rgba(212,165,165,0.25);
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== ENVELOPE OUTER (position context for letter card) ===== */
+.env-outer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 90px; /* space for the letter to rise into */
+}
+
+/* ===== LETTER CARD (hidden inside envelope, rises on open) ===== */
+.env-letter-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: min(280px, 72vw);
+  background: #FEFCF5;
+  border: 1px solid rgba(160,120,70,0.35);
+  border-radius: 3px;
+  text-align: center;
+  padding: 1.6rem 1.4rem 1.5rem;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* double-border vintage effect */
+  box-shadow:
+    0 0 0 3px #FEFCF5,
+    0 0 0 4.5px rgba(160,120,70,0.28),
+    0 10px 35px rgba(110,80,40,0.18),
+    0 2px 6px rgba(110,80,40,0.10);
+}
+
+.env-ltr-label {
+  font-family: var(--font-amiri);
+  font-style: italic;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  color: #8C7040;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.7rem;
+  line-height: 1.6;
+}
+.env-ltr-names {
+  font-family: var(--font-amiri);
+  font-size: clamp(1.45rem, 4.5vw, 2rem);
+  color: #3E2210;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.env-ltr-date {
+  font-family: var(--font-amiri);
+  font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+  color: #7A5C30;
+  margin-top: 0.55rem;
+  letter-spacing: 0.06em;
+  font-style: italic;
+}
+
+/* Divider line in letter card */
+.env-ltr-divider {
+  width: 44px;
+  height: 1.5px;
+  background: var(--grad-rose);
+  margin: 0.65rem auto;
+  border-radius: 2px;
+  opacity: 0.55;
+}
+
+/* ===== ENVELOPE BOX (landscape rectangle) ===== */
+.envelope-box {
+  position: relative;
+  z-index: 3;
+  width: min(360px, 88vw);
+  height: min(240px, 36vh);
+  filter:
+    drop-shadow(0 20px 54px rgba(120,90,60,0.28))
+    drop-shadow(0 5px 12px rgba(120,90,60,0.14));
+  overflow: visible;
+}
+
+/* Inside face (cream, revealed when flap opens) */
+.env-inside {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #FFFDFB 0%, #FFF5EE 100%);
+  z-index: 0;
+  border-radius: 2px;
+}
+
+/* Body front (SVG with fold lines injected by JS) */
+.env-body-front {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.env-body-front svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Flap (top 55% — triangle pointing down) */
+.env-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  z-index: 3;
+  transform-origin: center top;
+  will-change: transform;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.env-flap svg {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== WAX SEAL — deep burgundy red ===== */
+.env-seal {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%,
+    #D96060 0%,
+    #9A1A1A 38%,
+    #6B0808 65%,
+    #450303 100%);
+  box-shadow:
+    0 4px 18px rgba(90,5,5,0.55),
+    inset 0 2px 6px rgba(255,160,160,0.28),
+    inset 0 -2px 5px rgba(30,0,0,0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.env-seal:hover {
+  box-shadow:
+    0 6px 24px rgba(90,5,5,0.68),
+    inset 0 2px 6px rgba(255,160,160,0.28),
+    inset 0 -2px 5px rgba(30,0,0,0.40);
+  transform: translate(-50%, -50%) scale(1.07);
+}
+.env-seal:focus-visible {
+  outline: 2px solid #9A1A1A;
+  outline-offset: 4px;
+}
+
+.env-seal-text {
+  font-family: var(--font-amiri);
+  font-size: 1.4rem;
+  color: rgba(255,230,220,0.95);
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== HINT TEXT ===== */
+.knock-hint {
+  font-family: var(--font-tajawal);
+  font-size: clamp(0.85rem, 2.8vw, 1rem);
+  color: var(--warm-muted);
+  margin-top: 2rem;
+  letter-spacing: 0.03em;
+  position: relative;
+  z-index: 2;
+  animation: hint-pulse 2.2s ease-in-out infinite;
+}
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.45; transform: translateY(0); }
+  50%       { opacity: 0.85; transform: translateY(-2px); }
+}
+
+/* ===== TAP RIPPLE ===== */
+.knock-ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(212,165,165,0.55);
+  pointer-events: none;
+  z-index: 50;
+  animation: ripple-expand 0.65s ease-out forwards;
+}
+@keyframes ripple-expand {
+  from { transform: scale(0); opacity: 1; }
+  to   { transform: scale(5); opacity: 0; }
+}
