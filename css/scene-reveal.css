@@ -219,6 +219,23 @@
   box-shadow: var(--shadow-soft);
 }
 
+/* ===== Address ===== */
+.invite-address {
+  margin-bottom: 1.2rem;
+  padding: 0.9rem 1.2rem;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(212,165,165,0.25);
+  border-radius: 14px;
+  font-size: clamp(0.82rem, 2.4vw, 0.92rem);
+  color: var(--warm-muted);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+.address-icon {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
 /* ===== Closing Text ===== */
 .closing-text {
   font-size: clamp(0.85rem, 2.5vw, 0.95rem);
