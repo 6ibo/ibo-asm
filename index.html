@@ -32,6 +32,19 @@
   </div>
 
   <!-- ========================================
+       SPLASH — shown first, one tap starts everything
+       ======================================== -->
+  <div id="splash-overlay" aria-label="اضغط للدخول" role="button" tabindex="0">
+    <div class="splash-glow"></div>
+    <div class="splash-content">
+      <div class="splash-ring"></div>
+      <p class="splash-names font-ruqaa">إبراهيم <span class="splash-sep">✦</span> أسماء</p>
+      <p class="splash-date font-tajawal">٨ · ٨ · ٢٠٢٦</p>
+      <div class="splash-tap font-tajawal">اضغط للدخول</div>
+    </div>
+  </div>
+
+  <!-- ========================================
        SCENE 0: VIDEO INTRO
        ======================================== -->
   <section id="scene-video" class="scene active" aria-label="مقدمة الفيديو">
@@ -39,13 +52,6 @@
            aria-label="فيديو مقدمة الدعوة">
       <source src="vivi.mp4" type="video/mp4" />
     </video>
-    <!-- Shown only if browser blocks autoplay -->
-    <div id="video-tap-overlay" style="display:none">
-      <div class="vto-inner">
-        <div class="vto-icon">▶</div>
-        <p class="vto-text font-tajawal">اضغط للبدء</p>
-      </div>
-    </div>
     <button id="btn-skip-video" aria-label="تخطي الفيديو">تخطي ←</button>
   </section>
 
